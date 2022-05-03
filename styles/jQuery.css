@@ -1,0 +1,13 @@
+/* remove a seta de resize */
+.ui-icon-gripsmall-diagonal-se {
+  background-image: none!important;
+  width: 9px;
+  height: 9px;
+  right: -5px;
+  bottom: -5px;
+}
+
+.ui-resizable-handle {
+  padding: 0.34rem;
+  /* background-color: red; */
+}

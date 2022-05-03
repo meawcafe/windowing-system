@@ -1,0 +1,131 @@
+#desktop-container {
+  position: relative;
+
+  background-color: #595b69;
+  background: url('../assets/bg.png') no-repeat bottom center;
+  background-size: cover;
+
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  border-radius: 0.8rem;
+}
+
+
+.add-window-button {
+  position: absolute;
+  display: flex;
+
+  z-index: 5;
+
+  bottom: 2rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  cursor: pointer;
+
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.6);
+
+  width: 3.2rem;
+  height: 3.2rem;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2rem;
+  color: #333333;
+
+  border-radius: 50%;
+
+  opacity: 0.7;
+}
+
+.add-window-button:hover {
+  transition: 0s ease;
+  opacity: 1;
+}
+
+.add-window-button:active {
+  opacity: 0.6;
+  transform: translate(-50%, 0) scale(0.9);
+}
+
+
+.notify-message {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  
+  padding: 2%;
+
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+}
+
+.notify-message #notify-text {
+  font-weight: 800;
+
+  display: flex;
+
+  color: rgba(0, 0, 0, 0.6);
+  
+  background-color: rgba(0, 0, 0, 0.14);
+  box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.2);
+
+  backdrop-filter: blur(2rem);
+
+  padding: 2rem;
+  border-radius: 0.8rem;
+  
+  transition: 400ms cubic-bezier(.57,.01,.27,1);
+}
+
+.notify-message #notify-text span {
+  margin: auto;
+}
+
+
+
+#ghost-maximize-preview {
+  position: absolute;
+  padding: 0.4rem;
+
+  z-index: 2;
+
+  width: 0vw;
+  height: 0vh;
+  /* width: 200px;
+  height: 200px; */
+
+  overflow: hidden;
+
+  left: 50%; 
+  top: 0%;
+  transform: translate(0%, 0%);
+
+  opacity: 0;
+  transition: 400ms cubic-bezier(.57,.01,.27,1);
+}
+
+#ghost-maximize-preview div {
+  width: 100%;
+  height: 100%;
+  
+  border-radius: 0.6rem;
+
+  background-color: rgba(0, 0, 0, 0.1);
+
+  box-shadow: inset 0 0 10rem rgba(0, 0, 0, 0.4);
+}
