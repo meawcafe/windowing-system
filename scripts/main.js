@@ -11,8 +11,8 @@ function getElById(id, return_el_value=0, parse_int=0) {
 
 
 window.onload = function() {
-  if (window.innerWidth <= 400) {
+  if (window.innerWidth <= 600) {
     for_mobile_devices = 1
-    getElById('notify-text').firstElementChild.innerHTML += ' [ mobile mode ON ]'
+    getElById('notify-text').firstElementChild.innerHTML += '<br /> [ mobile mode ON ]'
   }
 };

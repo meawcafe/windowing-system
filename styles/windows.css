@@ -63,17 +63,9 @@
   transform: scale(1.2);
 }
 
-@media (hover: none) {
-  .dots-container span:hover {
-    opacity: inherit;
-    transform: inherit;
-  }
-}
 
 .dots-container span:active {
-  position: relative;
-  
-  transform: scale(1);
+  opacity: 0.6;
   transition: transform 0ms ease;
 }
 

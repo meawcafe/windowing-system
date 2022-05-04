@@ -6,8 +6,8 @@ function jQueryDraggable() {
     // snapTolerance: 10, // tolerancia do snap
     distance: 12,      // distancia minima após o clique para começar a arrastar a janela
     cursor: "move",    // muda o cursor do mouse quando arrasta (é possivel personalizar)
-    iframeFix: true,   // resolve um problema caso voce use a tag iframe (o mouse entra dentro e para de arrastar)
-    cancel: '.window-body, .dots', // cancela o draggable nos elementos com essas classes
+    // iframeFix: true,   // resolve um problema caso voce use a tag iframe (o mouse entra dentro e para de arrastar)
+    cancel: '.window-body, .dots-container', // cancela o draggable nos elementos com essas classes
     handle: ".title-bar", // elementos com essa classe sao os que podem ser clicados para arrastar o elemento principal
     start: function () {
       transparentWindowOnDrag($(this), 1)
@@ -24,6 +24,8 @@ function jQueryDraggable() {
 
     stop: function (event) {
       transparentWindowOnDrag($(this), 0)
+
+      forceIframeFix(this, 0)
 
       ghostMaximizePreview(undefined, '', 1)
 
@@ -51,6 +53,8 @@ function jQueryDraggable() {
     }, // end - draggable [ stop ]
 
     drag: function(event, ui) {
+      forceIframeFix(this, 1)
+
       let window_config = windows[$(this).attr('id')]
 
       if (window_config['isMaximized']) {
@@ -90,7 +94,7 @@ function jQueryResizable() {
     start: function () {
       transparentWindowOnDrag($(this), 1)
       
-      $(this).find('.window-body').addClass('force-iframe-fix')
+      forceIframeFix(this, 1)
     }, // end - resizable [ start ]
 
     stop: function (event) {
@@ -98,7 +102,7 @@ function jQueryResizable() {
 
       ghostMaximizePreview(undefined, '', 1)
 
-      $(this).find('.window-body').removeClass('force-iframe-fix')
+      forceIframeFix(this, 0)
 
       if (checkReadyToMaximizeByMousePosition(event, 'y')) {
         toggleMaximize(this, 1, 1)
@@ -148,3 +152,12 @@ function checkReadyToMaximizeByMousePosition(event, axis) {
       return 2;
   }
 } // end - checkReadyToMaximizeByMousePosition
+
+
+
+function forceIframeFix(the_window, hide) {
+  if (hide)
+    the_window.querySelector('.window-body').classList.add('force-iframe-fix')
+  else
+    the_window.querySelector('.window-body').classList.remove('force-iframe-fix')
+}

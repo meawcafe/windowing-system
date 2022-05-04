@@ -53,7 +53,10 @@ function buildWindowElement(window_id, body_content) {
   // title bar
   let title_bar = document.createElement('div')
   title_bar.classList.add('title-bar')
-  title_bar.addEventListener('dblclick', ()=> toggleMaximize(window_id))
+  title_bar.addEventListener('dblclick', (event)=> {
+    if (!event.target.parentElement.classList.contains('dots-container'))
+      toggleMaximize(window_id);
+  })
 
   // window title
   let window_title = document.createElement('span')
