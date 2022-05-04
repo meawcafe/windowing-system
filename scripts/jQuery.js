@@ -1,7 +1,7 @@
 function jQueryDraggable() {
   $(".window-frame")
   .draggable({
-    // containment: "parent", // solução para reconhecer touch de celulares
+    containment: for_mobile_devices ? 'parent' : '', // solução para reconhecer touch de celulares
     // snap: true,        // grudar janelas pela borda quando estao proximas
     // snapTolerance: 10, // tolerancia do snap
     distance: 12,      // distancia minima após o clique para começar a arrastar a janela
@@ -74,7 +74,10 @@ function jQueryDraggable() {
   .mousedown(function() {
     toggleFocusedWindow(this)
   })
-}
+} // end - jQueryDraggable
+
+
+
 
 function jQueryResizable() {
   $(".window-frame")
@@ -87,7 +90,7 @@ function jQueryResizable() {
     start: function () {
       transparentWindowOnDrag($(this), 1)
       
-      $(this).removeClass('current-focused-window')
+      $(this).find('.window-body').addClass('force-iframe-fix')
     }, // end - resizable [ start ]
 
     stop: function (event) {
@@ -95,7 +98,7 @@ function jQueryResizable() {
 
       ghostMaximizePreview(undefined, '', 1)
 
-      $(this).addClass('current-focused-window')
+      $(this).find('.window-body').removeClass('force-iframe-fix')
 
       if (checkReadyToMaximizeByMousePosition(event, 'y')) {
         toggleMaximize(this, 1, 1)
@@ -103,6 +106,8 @@ function jQueryResizable() {
     }, // end - resizable [ stop ]
 
     resize: function(event) {
+      toggleFocusedWindow(this)
+
       if (checkReadyToMaximizeByMousePosition(event, 'y')) {
         ghostMaximizePreview(this, 'tiling')
       } else {
@@ -111,6 +116,8 @@ function jQueryResizable() {
     } // end - resizable [ resize ]
   })
 } // end - jQueryResizable
+
+
 
 function jQueryLoadWindow() {
   jQueryResizable()
@@ -123,6 +130,7 @@ function jQueryLoadWindow() {
 
   jQueryDraggable()
 } // end - jQueryLoadWindow
+
 
 
 function checkReadyToMaximizeByMousePosition(event, axis) {

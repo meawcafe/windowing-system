@@ -2,7 +2,8 @@ let windows = {}
 let current_focused_window_id = ''
 const desktop_container = getElById('desktop-container')
 const random_windows = [
-  'wzRHgMWlWHk', 'DG2NyQ7C0rM'
+  'https://www.youtube.com/embed/wzRHgMWlWHk', 'https://www.youtube.com/embed/DG2NyQ7C0rM',
+  'https://streamable.com/e/z5r2uj'
 ]
 
 
@@ -33,13 +34,66 @@ function choiceARandomContent() {
   if (random_choice) {
     random_choice = Math.floor(Math.random() * (random_windows.length))
     return [
-      `<iframe src="https://www.youtube.com/embed/${random_windows[random_choice]}" title="YouTube video player" frameborder="0" allow="autoplay; clipboard-write; encrypted-media;"></iframe>`,
+      `<iframe src="${random_windows[random_choice]}?autoplay=0" frameborder="0" allow="autoplay"></iframe>`,
       true
     ]
   } else {
     return ['<span class="span-text">yay ♡</span>', false]
   }
 } // end - choiceARandomContent
+
+
+
+function buildWindowElement(window_id, body_content) {
+  // window frame
+  let window_frame = document.createElement('div');
+  window_frame.classList.add('window-frame')
+  window_frame.id = window_id
+
+  // title bar
+  let title_bar = document.createElement('div')
+  title_bar.classList.add('title-bar')
+  title_bar.addEventListener('dblclick', ()=> toggleMaximize(window_id))
+
+  // window title
+  let window_title = document.createElement('span')
+  window_title.classList.add('span-text')
+  window_title.innerHTML = window_id+'.exe'
+
+  // dots container
+  let dots_container = document.createElement('div')
+  dots_container.classList.add('dots-container')
+
+  // dots
+  let dot = document.createElement('span')
+  dots_container.appendChild(dot)
+
+  dot = document.createElement('span')
+  dot.addEventListener('click', () => toggleMaximize(window_id))
+  dots_container.appendChild(dot)
+
+  dot = document.createElement('span')
+  dot.addEventListener('click', () => destroyWindow(window_id))
+  dots_container.appendChild(dot)
+
+  // window body
+  let window_body = document.createElement('div');
+  window_body.classList.add('window-body')
+
+  // iframe fix
+  let iframe_fix = document.createElement('div');
+  iframe_fix.classList.add('iframe-fix')
+  
+  // append all
+  title_bar.append(window_title, dots_container)
+
+  window_body.append(iframe_fix)
+  window_body.innerHTML += body_content
+
+  window_frame.append(title_bar, window_body)
+
+  return window_frame
+} // end - buildWindowElement
 
 
 function createWindow() {
@@ -52,23 +106,9 @@ function createWindow() {
     'beforePosition': [0, 0] // salva a posicao x,y antes de maximizar
   }
 
-  let new_window_HTML = `
-    <div class="window-frame" id=${new_window_id}>
-      <div class="title-bar">
-        <span class="span-text">${new_window_id}.exe</span>
-        <div class="dots">
-          <span></span>
-          <span onclick="toggleMaximize(this)"></span>
-          <span onclick="destroyWindow(this)"></span>
-        </div>
-      </div>
-      <div class="window-body">
-        <div class="iframe-fix"></div>
-        ${window_content[0]}
-      </div>
-    </div>
-  `
-  desktop_container.innerHTML += new_window_HTML
+
+  // desktop_container.innerHTML += new_window_HTML
+  desktop_container.appendChild(buildWindowElement(new_window_id, window_content[0]))
 
   let created_window = getElById(new_window_id)
   let desktop_size = getDesktopSize()
@@ -80,7 +120,7 @@ function createWindow() {
   }
 
   function randomNumber(number) {
-    number = number/4
+    number = for_mobile_devices ? number/8 : number/4
     return Math.floor(Math.random() * number) - (number/2)
   }
   
@@ -98,7 +138,7 @@ function createWindow() {
 
 function destroyWindow(the_window, isWindowFrame=0) {
   if (!isWindowFrame) 
-    the_window = the_window.parentElement.parentElement.parentElement;
+    the_window = getElById(the_window);
   
   the_window.style.transition = 'top 400ms cubic-bezier(0.8, 0, 1, 1), opacity 280ms 100ms'
   the_window.style.top = getDesktopSize()[1]+'px'
@@ -106,7 +146,7 @@ function destroyWindow(the_window, isWindowFrame=0) {
   
   setTimeout(()=> {
     the_window.remove()
-  }, 1000)
+  }, 400)
 } // end - destroyWindow
 
 
@@ -125,7 +165,7 @@ function toggleFocusedWindow(the_window) {
 
 function toggleMaximize(the_window, isWindowFrame=0, maximizeOnlyVertical=0, isTilingWindow=0, TilingDirection=0) {
   if (!isWindowFrame)
-    the_window = the_window.parentElement.parentElement.parentElement;
+    the_window = getElById(the_window);
 
   // cs = computed style
   let cs_the_window = getComputedStyle(the_window)
