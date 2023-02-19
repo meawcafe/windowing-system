@@ -3,7 +3,7 @@ let current_focused_window_id = ''
 const desktop_container = getElById('desktop-container')
 const random_windows = [
   'https://www.youtube.com/embed/wzRHgMWlWHk', 'https://www.youtube.com/embed/DG2NyQ7C0rM',
-  'https://streamable.com/e/z5r2uj'
+  'https://streamable.com/e/z5r2uj', 'https://classic.minecraft.net/?join=JALDMEEexbrfzCrL'
 ]
 
 
